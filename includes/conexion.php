@@ -2,6 +2,7 @@
 /**
  * conexion.php - Conexión a la base de datos con PDO
  */
+// Funcion conectarse a la base de datos y devolver la instancia de PDO
 function conectarBD(): PDO {
     static $pdo = null;
     
