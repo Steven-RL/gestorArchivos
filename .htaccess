@@ -1,0 +1,13 @@
+# ===================================================================
+# /.htaccess raíz
+# Protege archivos sensibles del proyecto.
+# ===================================================================
+<FilesMatch "\.(sql|md|txt|log)$">
+  Require all denied
+</FilesMatch>
+
+<Files "config.php">
+  Require all denied
+</Files>
+
+Options -Indexes
