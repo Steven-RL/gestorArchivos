@@ -12,3 +12,5 @@ define('ADMIN_PASS_HASH', '$2y$12$mkSRTdk40UeXGOgOhNP/FuAG9.Xvdp2LvPn9OL.7Gny8Mt
 
 // Tiempo máximo de sesión en segundos (30 minutos) - Opcional
 define('SESSION_LIFETIME', 1800);
+
+?>
