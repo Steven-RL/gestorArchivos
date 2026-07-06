@@ -1,0 +1,24 @@
+# ===================================================================
+# /uploads/.htaccess
+# Bloquea ejecución de cualquier script en el directorio de subidas.
+# Esta es la defensa principal contra ejecución remota (RCE).
+# ===================================================================
+
+# Desactiva el motor PHP en este directorio
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+  php_flag engine off
+</IfModule>
+
+# Bloquea por extensión cualquier script ejecutable
+<FilesMatch "\.(php|php3|php4|php5|php7|phtml|phar|pl|py|jsp|asp|aspx|sh|cgi|htaccess|htm|html)$">
+  Require all denied
+</FilesMatch>
+
+# Evita listado del directorio
+Options -Indexes
