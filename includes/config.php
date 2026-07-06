@@ -13,13 +13,14 @@
  */
 require_once __DIR__ . '/conexion.php';
 require_once __DIR__ . '/credenciales_admin.php';
-// 1) ZONA HORARIA y reporte de errores
+
+// ZONA HORARIA y reporte de errores
 // ---------------------------------------------------------------------
 date_default_timezone_set('America/Bogota');
 error_reporting(E_ALL);
 ini_set('display_errors', '1'); // En producción real ponlo en '0'
 
-// 3) SESIÓN SEGURA
+// SESIÓN SEGURA
 //    - HttpOnly: la cookie no es accesible por JS (anti-XSS)
 //    - SameSite=Strict: anti-CSRF a nivel de cookie
 //    - use_strict_mode: evita session fixation
@@ -41,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 4) LÍMITES Y EXTENSIONES PERMITIDAS
+// LÍMITES Y EXTENSIONES PERMITIDAS
 // ---------------------------------------------------------------------
 define('MAX_FILE_SIZE', 10 * 1024 * 1024); // 10 MB
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');
@@ -59,27 +60,27 @@ $EXTENSIONES_PROHIBIDAS = [
     'js','jsp','asp','aspx','cgi','pl','py','rb','htaccess'
 ];
 
-// 5) CABECERAS DE SEGURIDAD HTTP
+// CABECERAS DE SEGURIDAD HTTP
 // ---------------------------------------------------------------------
 header('X-Content-Type-Options: nosniff');     // No "adivinar" tipos MIME
 header('X-Frame-Options: DENY');               // Anti clickjacking
 header('Referrer-Policy: no-referrer');        // No filtrar URL al salir
 header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; font-src 'self' data:;");
 
-// 6) CONEXIÓN A BASE DE DATOS (PDO con manejo de errores y prepared statements)
+// 5) CONEXIÓN A BASE DE DATOS (PDO con manejo de errores y prepared statements)
 
 function db(): PDO {
     return conectarBD();
 }
 
-// 7) HELPER ANTI-XSS
+// 6) HELPER ANTI-XSS
 //    Escapa toda salida HTML para evitar inyección de scripts.
 
 function e(?string $valor): string {
     return htmlspecialchars($valor ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
-// 8) TOKEN CSRF
+//  TOKEN CSRF
 //    Generamos un token único por sesión y lo validamos en cada acción
 //    que modifica el estado (subir, eliminar, renombrar, login).
 
@@ -97,7 +98,7 @@ function csrf_check(?string $token): void {
     }
 }
 
-// 9) FUNCIONES DE AUTENTICACIÓN
+// FUNCIONES DE AUTENTICACIÓN
 // 
 function esta_logueado(): bool {
     return !empty($_SESSION['auth_user']);
@@ -114,7 +115,7 @@ function usuario_actual(): ?string {
     return $_SESSION['auth_user'] ?? null;
 }
 
-// 10) FLASH MESSAGES (mensajes de un solo uso)
+// FLASH MESSAGES (mensajes de un solo uso)
 // 
 
 function flash(string $tipo, string $mensaje): void {
